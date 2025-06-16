@@ -6,6 +6,7 @@ import mlflow.sklearn
 from joblib import dump
 from data_preprocessing import preprocessing
 import os
+import json
 
 def model_training(data_path=r'data\loan_applications.csv'):
     x_scaled, y_encode = preprocessing(data_path)
@@ -58,6 +59,9 @@ def model_training(data_path=r'data\loan_applications.csv'):
         mlflow.sklearn.log_model(rf, artifact_path="random_forest_model")
 
         print(" Model logged to MLflow successfully.")
+        metrics = {"accuracy": accuracy_score(y_test, y_pred),"f1_score": f1_score(y_test, y_pred)}
+        with open("metrics.json", "w") as f:
+            json.dump(metrics, f, indent=4)
 
 # Entry point
 if __name__ == "__main__":

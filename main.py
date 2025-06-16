@@ -7,7 +7,7 @@ import os
 
 # Load the saved scaler and model
 scaler = joblib.load('artifacts/scaler.joblib')
-model = joblib.load("models/random_forest_model.joblib")
+model = joblib.load("model/models/random_forest_model.joblib")
 
 # Load saved label encoders
 label_encoders = {}

@@ -2,29 +2,121 @@
 <html>
 <head>
     <title>Loan Risk Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f4f4f4;
+        }
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #222;
+        }
+    </style>
 </head>
 <body>
-    <h2>Loan Application Risk Prediction</h2>
+
+    <h2 style="text-align:center;">Loan Risk Prediction Form</h2>
 
     <form method="post" action="/predict">
-        <label>Loan Type:</label><input type="number" name="loan_type"><br><br>
-        <label>Loan Amount Requested:</label><input type="number" step="any" name="loan_amount_requested"><br><br>
-        <label>Loan Tenure (Months):</label><input type="number" name="loan_tenure_months"><br><br>
-        <label>Purpose of Loan:</label><input type="number" name="purpose_of_loan"><br><br>
-        <label>Employment Status:</label><input type="number" name="employment_status"><br><br>
-        <label>Monthly Income:</label><input type="number" step="any" name="monthly_income"><br><br>
-        <label>CIBIL Score:</label><input type="number" name="cibil_score"><br><br>
-        <label>Existing EMIs Monthly:</label><input type="number" step="any" name="existing_emis_monthly"><br><br>
-        <label>Debt to Income Ratio:</label><input type="number" step="any" name="debt_to_income_ratio"><br><br>
-        <label>Property Ownership Status:</label><input type="number" name="property_ownership_status"><br><br>
-        <label>Applicant Age:</label><input type="number" name="applicant_age"><br><br>
-        <label>Number of Dependents:</label><input type="number" name="number_of_dependents"><br><br>
+        <label for="loan_type">Loan Type</label>
+        <select id="loan_type" name="loan_type" required>
+            <option>Business Loan</option>
+            <option>Car Loan</option>
+            <option>Education Loan</option>
+            <option>Personal Loan</option>
+            <option>Home Loan</option>
+        </select>
 
-        <button type="submit">Predict Risk</button>
+        <label for="loan_amount_requested">Loan Amount Requested</label>
+        <input type="number" step="any" id="loan_amount_requested" name="loan_amount_requested" required>
+
+        <label for="loan_tenure_months">Loan Tenure (Months)</label>
+        <input type="number" id="loan_tenure_months" name="loan_tenure_months" required>
+
+        <label for="purpose_of_loan">Purpose of Loan</label>
+        <select id="purpose_of_loan" name="purpose_of_loan" required>
+            <option>Medical Emergency</option>
+            <option>Education</option>
+            <option>Home Renovation</option>
+            <option>Wedding</option>
+            <option>Travel</option>
+        </select>
+
+        <label for="employment_status">Employment Status</label>
+        <select id="employment_status" name="employment_status" required>
+            <option>Employed</option>
+            <option>Unemployed</option>
+            <option>Self-Employed</option>
+            <option>Retired</option>
+        </select>
+
+        <label for="monthly_income">Monthly Income</label>
+        <input type="number" step="any" id="monthly_income" name="monthly_income" required>
+
+        <label for="cibil_score">CIBIL Score</label>
+        <input type="number" id="cibil_score" name="cibil_score" min="300" max="900" required>
+
+        <label for="existing_emis_monthly">Existing EMIs Monthly</label>
+        <input type="number" step="any" id="existing_emis_monthly" name="existing_emis_monthly" required>
+
+        <label for="debt_to_income_ratio">Debt to Income Ratio</label>
+        <input type="number" step="any" id="debt_to_income_ratio" name="debt_to_income_ratio" required>
+
+        <label for="property_ownership_status">Property Ownership Status</label>
+        <select id="property_ownership_status" name="property_ownership_status" required>
+            <option>Owned</option>
+            <option>Rented</option>
+            <option>Mortgaged</option>
+        </select>
+
+        <label for="applicant_age">Applicant Age</label>
+        <input type="number" id="applicant_age" name="applicant_age" required>
+
+        <label for="number_of_dependents">Number of Dependents</label>
+        <input type="number" id="number_of_dependents" name="number_of_dependents" required>
+
+        <button type="submit" class="btn">Predict</button>
     </form>
 
     {% if prediction %}
-        <h3>Prediction: {{ prediction }}</h3>
+    <div class="result">
+        <h3>Prediction Result: 
+            <span style="color: {{ 'red' if prediction == 'High Risk' else 'green' }}">
+                {{ prediction }}
+            </span>
+        </h3>
+    </div>
     {% endif %}
+
 </body>
 </html>

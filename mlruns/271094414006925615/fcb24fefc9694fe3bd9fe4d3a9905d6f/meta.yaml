@@ -1,0 +1,15 @@
+artifact_uri: file:///G:/data_science_projects/risk/Fraud_detection_and_risk_accessment_Mlops/mlruns/271094414006925615/fcb24fefc9694fe3bd9fe4d3a9905d6f/artifacts
+end_time: 1750117464050
+entry_point_name: ''
+experiment_id: '271094414006925615'
+lifecycle_stage: active
+run_id: fcb24fefc9694fe3bd9fe4d3a9905d6f
+run_name: RandomForestClassifier
+run_uuid: fcb24fefc9694fe3bd9fe4d3a9905d6f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750117321376
+status: 3
+tags: []
+user_id: Sarunraj.S

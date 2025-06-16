@@ -3,49 +3,55 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import joblib
 import pandas as pd
-from joblib import load
-
-
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import LabelEncoder, StandardScaler
-from joblib import dump
 import os
 
-# Load the saved scaler
-scaler = load('artifacts/scaler.joblib')
-# Load model
-model = joblib.load("models/model.joblib")
+# Load the saved scaler and model
+scaler = joblib.load('artifacts/scaler.joblib')
+model = joblib.load("models/random_forest_model.joblib")
 
-# Init FastAPI app
+# Load saved label encoders
+label_encoders = {}
+categorical_cols = [
+    "loan_type",
+    "purpose_of_loan",
+    "employment_status",
+    "property_ownership_status"
+]
+
+for col in categorical_cols:
+    encoder_path = os.path.join("artifacts", f"{col}_encoder.joblib")
+    if os.path.exists(encoder_path):
+        label_encoders[col] = joblib.load(encoder_path)
+
+# Initialize FastAPI app
 app = FastAPI(title="Loan Risk Prediction App")
 
-# Jinja2 templates directory
+# Set Jinja2 templates directory
 templates = Jinja2Templates(directory="templates")
 
-# Home page with HTML form
+# Home page
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
     return templates.TemplateResponse("form.html", {"request": request})
 
-# Handle form submission
+# Prediction route
 @app.post("/predict", response_class=HTMLResponse)
 async def predict_risk(
     request: Request,
-    loan_type: int = Form(...),
+    loan_type: str = Form(...),
     loan_amount_requested: float = Form(...),
     loan_tenure_months: int = Form(...),
-    purpose_of_loan: int = Form(...),
-    employment_status: int = Form(...),
+    purpose_of_loan: str = Form(...),
+    employment_status: str = Form(...),
     monthly_income: float = Form(...),
     cibil_score: int = Form(...),
     existing_emis_monthly: float = Form(...),
     debt_to_income_ratio: float = Form(...),
-    property_ownership_status: int = Form(...),
+    property_ownership_status: str = Form(...),
     applicant_age: int = Form(...),
     number_of_dependents: int = Form(...)
 ):
-    # Create input DataFrame
+    # Create input dataframe
     input_data = pd.DataFrame([{
         "loan_type": loan_type,
         "loan_amount_requested": loan_amount_requested,
@@ -60,46 +66,27 @@ async def predict_risk(
         "applicant_age": applicant_age,
         "number_of_dependents": number_of_dependents
     }])
-    
-     def preprocess_and_save(data: input_data, save_dir: str = "artifacts"):
-    
 
-    
-
-    # Copy to avoid modifying original
-    
-
-    # Identify categorical columns
-    categorical_cols = x.select_dtypes(include='object').columns.tolist()
-
-    encoders = {}
-
-    # Label encoding
+    # Label encode categorical fields
     for col in categorical_cols:
-        le = LabelEncoder()
-        x[col] = le.fit_transform(x[col])
-        encoders[col] = le
+        encoder = label_encoders.get(col)
+        if encoder:
+            try:
+                input_data[col] = encoder.transform(input_data[col])
+            except ValueError:
+                return templates.TemplateResponse("form.html", {
+                    "request": request,
+                    "prediction": f"Invalid input value for {col.replace('_', ' ').title()}!"
+                })
 
-        # Save encoder
-        dump(le, os.path.join(save_dir, f"{col}_encoder.joblib"))
+    # Scale numerical values
+    scaled_data = scaler.transform(input_data)
 
-    # Sanity check
-    assert x.select_dtypes(include='object').shape[1] == 0, "Some columns are still strings!"
-
-    # Feature scaling
-    scaler = StandardScaler()
-    x_scaled = scaler.fit_transform(x)
-    x_scaled = pd.DataFrame(x_scaled, columns=x.columns)
-
-    # Save scaler
-    dump(scaler, os.path.join(save_dir, "scaler.joblib"))
-
-    return x_scaled
-
-    # Make prediction
-    prediction = model.predict(input_data)[0]
+    # Predict
+    prediction = model.predict(scaled_data)[0]
     prediction_text = "High Risk" if prediction == 1 else "Low Risk"
 
+    # Return result
     return templates.TemplateResponse("form.html", {
         "request": request,
         "prediction": prediction_text

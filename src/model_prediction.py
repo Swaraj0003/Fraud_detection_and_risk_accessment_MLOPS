@@ -1,5 +1,5 @@
 from joblib import dump, load
-from src.model_evaluation import evaluation_model
+from model_evaluation import evaluation_model
 
 def prediction(data_path):
     loaded_model = load('random_forest_model.joblib')

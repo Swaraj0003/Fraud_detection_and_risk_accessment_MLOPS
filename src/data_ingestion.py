@@ -1,4 +1,5 @@
 import pandas as pd
 
-def data_ingestion(data_path):
-    return df=pd.read_csv(data_path)
+def ingestion(data_path):
+    df=pd.read_csv(data_path)
+    return df

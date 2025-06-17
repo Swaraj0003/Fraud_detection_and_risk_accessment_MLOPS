@@ -1,20 +1,37 @@
-import pandas as pd 
-import numpy as np
-from sklearn.preprocessing import StandardScaler
-from src.data_ingestion import data_ingestion
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from data_ingestion import ingestion
 
 def preprocessing(data_path):
-    df=data_ingestion(data_path)
-    x = df.drop(['application_id', 'application_date', 'interest_rate_offered','residential_address','gender','fraud_flag','loan_status'], axis=1)
+    df = ingestion(data_path)
+
+    # Drop unused or non-model features
+    x = df.drop([
+        'application_id', 'application_date', 'interest_rate_offered',
+        'residential_address', 'gender', 'fraud_flag', 'loan_status'
+    ], axis=1)
+
+    # Encode all categorical features (add any missing ones here)
+    categorical_cols = x.select_dtypes(include='object').columns.tolist()
+
     encoders = {}
-    for i in col:
+    for col in categorical_cols:
         le = LabelEncoder()
-        x_encoded = le.fit_transform(x[i])  # Use 'x' if that's your dataframe name
-        encoders[i] = le
-        x[i] = x_encoded 
-    scaler=StandardScaler()
-    x_scaled=scaler.fit_transform(x)   
-    x_scaled=pd.DataFrame(x_scaled,columns=x.columns)
-    y_encoded = le.fit_transform(y)
-    y_encode=pd.Series(y_encoded)
-    return x_scaled,y_encode
+        x[col] = le.fit_transform(x[col])
+        encoders[col] = le
+
+    # Check if all columns are numeric now
+    assert x.select_dtypes(include='object').shape[1] == 0, "Some columns are still strings!"
+
+    # Feature scaling
+    scaler = StandardScaler()
+    x_scaled = scaler.fit_transform(x)
+    x_scaled = pd.DataFrame(x_scaled, columns=x.columns)
+
+    # Encode target
+    y = df['loan_status']
+    y_encoder = LabelEncoder()
+    y_encoded = y_encoder.fit_transform(y)
+    y_encode = pd.Series(y_encoded)
+
+    return x_scaled, y_encode

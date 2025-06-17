@@ -9,3 +9,6 @@ joblib
 fastapi
 uvicorn
 pytest
+fastapi
+uvicorn
+jinja2

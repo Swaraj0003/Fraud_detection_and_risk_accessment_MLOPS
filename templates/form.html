@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Risk Prediction</title>
+</head>
+<body>
+    <h2>Loan Application Risk Prediction</h2>
+
+    <form method="post" action="/predict">
+        <label>Loan Type:</label><input type="number" name="loan_type"><br><br>
+        <label>Loan Amount Requested:</label><input type="number" step="any" name="loan_amount_requested"><br><br>
+        <label>Loan Tenure (Months):</label><input type="number" name="loan_tenure_months"><br><br>
+        <label>Purpose of Loan:</label><input type="number" name="purpose_of_loan"><br><br>
+        <label>Employment Status:</label><input type="number" name="employment_status"><br><br>
+        <label>Monthly Income:</label><input type="number" step="any" name="monthly_income"><br><br>
+        <label>CIBIL Score:</label><input type="number" name="cibil_score"><br><br>
+        <label>Existing EMIs Monthly:</label><input type="number" step="any" name="existing_emis_monthly"><br><br>
+        <label>Debt to Income Ratio:</label><input type="number" step="any" name="debt_to_income_ratio"><br><br>
+        <label>Property Ownership Status:</label><input type="number" name="property_ownership_status"><br><br>
+        <label>Applicant Age:</label><input type="number" name="applicant_age"><br><br>
+        <label>Number of Dependents:</label><input type="number" name="number_of_dependents"><br><br>
+
+        <button type="submit">Predict Risk</button>
+    </form>
+
+    {% if prediction %}
+        <h3>Prediction: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>

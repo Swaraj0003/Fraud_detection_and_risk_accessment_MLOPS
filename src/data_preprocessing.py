@@ -1,6 +1,9 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from data_ingestion import ingestion
+from joblib import dump
+import os
+os.makedirs('artifacts', exist_ok=True)
 
 def preprocessing(data_path):
     df = ingestion(data_path)
@@ -27,7 +30,7 @@ def preprocessing(data_path):
     scaler = StandardScaler()
     x_scaled = scaler.fit_transform(x)
     x_scaled = pd.DataFrame(x_scaled, columns=x.columns)
-
+    dump(scaler, 'artifacts/scaler.joblib')
     # Encode target
     y = df['loan_status']
     y_encoder = LabelEncoder()

@@ -28,24 +28,20 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 ---
 
 ## 🗂️ Project Structure
-
-.
-├──  main.py # FastAPI app
+├── app.py / main.py # FastAPI app
 ├── requirements.txt
 ├── models/ # Saved ML models
-├── artifacts/ 
+├── artifacts/ # Scaler & encoders
 ├── data/
-│ ├── raw data
+│ ├── raw/ # Original data
 │ 
 ├── src/
 │ ├── data_ingestion.py
 │ ├── data_preprocessing.py
 │ └── model_training.py
-├── tests/ 
-├── .github/workflows/ 
+├── tests/ # Test case
+├── .github/workflows/ # GitHub CI workflows
 └── README.md
-
-
 ---
 
 ## 🛠️ Setup Instructions

@@ -22,8 +22,7 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 | `FastAPI`       | API for model inference                |
 | `Scikit-learn`  | ML model training                      |
 | `GitHub Actions`| CI/CD automation                       |
-| `flake8`        | Code style linting                     |
-| `Hugging Face`  | Deployment platform                    |
+| `flake8`        | Code style linting                     |                   |
 
 ---
 

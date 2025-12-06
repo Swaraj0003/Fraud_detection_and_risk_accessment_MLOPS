@@ -1,4 +1,4 @@
- Fraud Detection and Risk Assessment MLOps Project
+FRAUD DETECTION AND RISK ACCESSMENT MLOPS
 
 This project aims to build an end-to-end machine learning pipeline for **loan fraud detection and risk assessment**, integrating MLOps best practices MLflow, model training and evaluation, CI/CD (GitHub Actions), and deployment on **Hugging Face Spaces** using FastAPI.
 

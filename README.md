@@ -13,8 +13,7 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 -  Label encoding, scaling, metrics logging
 -  Modular source code in `src/`
 
----
-              |
+              
 
 ---
 

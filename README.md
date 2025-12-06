@@ -28,7 +28,7 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 
 ├── artifacts
 
-├── data/
+├── data
  
 ├── src/
 

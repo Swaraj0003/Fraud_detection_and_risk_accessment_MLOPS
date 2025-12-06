@@ -33,7 +33,6 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 │ ├── raw 
 │ 
 ├── src/
-
 │ ├── data_ingestion.py
 
 │ ├── data_preprocessing.py

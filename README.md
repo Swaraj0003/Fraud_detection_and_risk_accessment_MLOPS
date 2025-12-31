@@ -1,10 +1,10 @@
-FRAUD DETECTION AND RISK ACCESSMENT MLOPS
+# FRAUD DETECTION AND RISK ACCESSMENT MLOPS
 
 This project aims to build an end-to-end machine learning pipeline for **loan fraud detection and risk assessment**, integrating MLOps best practices MLflow, model training and evaluation, CI/CD (GitHub Actions), and deployment on **Hugging Face Spaces** using FastAPI.
 
 ---
 
- Features
+ # Features
 
 -  End-to-end ML pipeline using Scikit-learn
 -  MLflow for model tracking , CI/CD with GitHub Actions (linting, testing, reproducibility)
@@ -17,7 +17,7 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 
 ---
 
- Project Structure
+# Project Structure
  
 ├── app.py 
 
@@ -43,7 +43,7 @@ This project aims to build an end-to-end machine learning pipeline for **loan fr
 
 ---
 
- Setup Instructions
+ # Setup Instructions
 
 1. **Clone the repo**
 ```bash
